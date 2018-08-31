@@ -1,7 +1,7 @@
 #lang racket/gui
 
 (module+ test
-  (define THISFILE "we-must-deliver-this.rkt"))
+  (define THISFILE "main.rkt"))
 
 ;; ---------------------------------------------------------------------------------------------------
 ;; the retriev-result function is kind of within reach of students after the first week
@@ -43,6 +43,7 @@
 (require htdp/error)
 (require (except-in video/base color))
 (require video/player)
+(require racket/runtime-path)
 
 (module+ test
   (require rackunit))
@@ -66,6 +67,11 @@
 (define DONT "dislike")
 (define LIKE "like")
 (define DONE "none")
+
+(define-runtime-path PLAY.PNG  "Resources/play.png")
+(define-runtime-path PAUSE.PNG "Resources/pause.png")
+(define-runtime-path LIKE.PNG  "Resources/like.png")
+(define-runtime-path DONT.PNG  "Resources/dont.png")
 
 (define (play-sound mp3)
   (check-arg 'play-sound (bytes? mp3) "byte string" "the" mp3)
@@ -128,11 +134,11 @@
     (define 2WIDTH  (* 2 WIDTH))
     (define HEIGHT  50)
     (define 2HEIGHT (* 2 HEIGHT))
-  
-    (define PLAY (scale .25 (bitmap "play.png")))
-    (define PAUS (scale .25 (bitmap "pause.png")))
-    (define LIKE (scale .25 (bitmap "like.png")))
-    (define DONT (scale .25 (bitmap "dont.png")))
+
+    (define PLAY (scale .25 (bitmap/file PLAY.PNG)))
+    (define PAUS (scale .25 (bitmap/file PAUSE.PNG)))
+    (define LIKE (scale .25 (bitmap/file LIKE.PNG)))
+    (define DONT (scale .25 (bitmap/file DONT.PNG)))
     
     ;; <Image , (X) (X -> X) >
     ;; generate images for buttons and callbacks 
@@ -231,7 +237,7 @@
   (list title song))
 
 (module+ test
-  (define short (file-as-bytes "../Resources/short.mp3"))
+  (define short (file-as-bytes "Resources/short.mp3"))
   (check-exn #px"song-bytes as the argument" (lambda () (song-bytes-title short)))
 
   (check-equal? (make-song-bytes "a" #"b") #"a|b")
