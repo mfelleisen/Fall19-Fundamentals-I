@@ -119,7 +119,10 @@
   (big-bang #f
     [to-draw   (λ (s) (send gui show (eq? PAUSED s)))]
     [on-tick   (λ (s) (if (and (boolean? s) (send vps is-stopped?)) DONE s))]
-    [on-mouse  (λ (s x y me) (if (mouse=? me "button-down") ((send gui geometry-manager x y) s) s))]
+    [on-mouse  (λ (s x y me) (cond
+                               [(not (mouse=? me "button-down")) s]
+                               [(send gui geometry-manager x y) => (λ (cb) (cb s))]
+                               [else s]))]
     [stop-when string?]))
 
 ;; (X) (class [cb-play (X -> X)] [cb-pause (X -> X)] [cb-like (X -> X)] [cb-dont (X -> X)]
@@ -129,16 +132,16 @@
 (define gui%
   (class object% (init paused? cb-play cb-pause cb-like cb-dont)
     
-    ;; sizes and shapes 
-    (define WIDTH   100)
-    (define 2WIDTH  (* 2 WIDTH))
-    (define HEIGHT  50)
-    (define 2HEIGHT (* 2 HEIGHT))
-
     (define PLAY (scale .25 (bitmap/file PLAY.PNG)))
     (define PAUS (scale .25 (bitmap/file PAUSE.PNG)))
     (define LIKE (scale .25 (bitmap/file LIKE.PNG)))
     (define DONT (scale .25 (bitmap/file DONT.PNG)))
+
+    ;; sizes and shapes 
+    (define WIDTH   (image-width PLAY))
+    (define 2WIDTH  (* 2 WIDTH))
+    (define HEIGHT  (image-height PLAY))
+    (define 2HEIGHT (* 2 HEIGHT))
     
     ;; <Image , (X) (X -> X) >
     ;; generate images for buttons and callbacks 
