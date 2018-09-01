@@ -4,7 +4,7 @@
 (require 2htdp/image)
 (require 2htdp/universe)
 ; (require "../main.rkt")
-(require Fall19-Fundamentals-I)
+(require "../main.rkt")
 
 ;; ===================================================================================================
 ;; a dumb student program 

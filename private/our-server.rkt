@@ -1,6 +1,6 @@
 #lang racket/gui
 
-(require Fall19-Fundamentals-I)
+(require "../main.rkt")
 
 ;; PURPOSE a dumb server 
 
@@ -24,8 +24,8 @@
 ;; ===================================================================================================
 ;; IMPLEMENTATION 
 
-(define MP3-short "../Resources/short.mp3")
-(define MP3-long  "../Resources/long.mp3")
+(define MP3-short "../private/short.mp3")
+(define MP3-long  "../privates/long.mp3")
 
 (define (server-our-job)
   (define msg0 (make-song-bytes "short" (file-as-bytes MP3-short)))

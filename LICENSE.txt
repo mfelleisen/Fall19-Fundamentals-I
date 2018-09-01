@@ -1,5 +1,5 @@
 Fall19-Funamentals-I
-Copyright (c) 2018 matthias
+Copyright (c) 2018 Matthias Felleisen
 
 This package is distributed under the GNU Lesser General Public
 License (LGPL).  This means that you can link Fall19-Funamentals-I into proprietary

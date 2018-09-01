@@ -1,6 +1,5 @@
 Fall19-Funamentals-I
 ====================
 
+- private ~~ the PNGs for the GUI, the sample MP3s, and a sample app
 - scribblings ~~ documentation 
-- Resources ~~ the PNGs for the GUI and the sample MP3s for files/
-- files/ ~~ a simple client-server system for exchanging and playing MP3s

@@ -1,13 +1,13 @@
 #lang racket/gui
 
-(module+ test
-  (define THISFILE "main.rkt"))
-
 ;; ---------------------------------------------------------------------------------------------------
 ;; the retriev-result function is kind of within reach of students after the first week
 ;; at the pace of the regular schedue; they should do it so they don't think this is black magic 
 
 (provide
+
+ ;; String -> Response U False 
+ self-test 
 
  ;; type Response <= String is one of
  DONT     ;; feedback has been provided
@@ -46,6 +46,8 @@
 (require racket/runtime-path)
 
 (module+ test
+  (define THISFILE "main.rkt")
+  
   (require rackunit))
 
 ;; ---------------------------------------------------------------------------------------------------
@@ -68,10 +70,10 @@
 (define LIKE "like")
 (define DONE "none")
 
-(define-runtime-path PLAY.PNG  "Resources/play.png")
-(define-runtime-path PAUSE.PNG "Resources/pause.png")
-(define-runtime-path LIKE.PNG  "Resources/like.png")
-(define-runtime-path DONT.PNG  "Resources/dont.png")
+(define-runtime-path PLAY.PNG  "private/play.png")
+(define-runtime-path PAUSE.PNG "private/pause.png")
+(define-runtime-path LIKE.PNG  "private/like.png")
+(define-runtime-path DONT.PNG  "private/dont.png")
 
 (define (play-sound mp3)
   (check-arg 'play-sound (bytes? mp3) "byte string" "the" mp3)
@@ -240,10 +242,51 @@
   (list title song))
 
 (module+ test
-  (define short (file-as-bytes "Resources/short.mp3"))
+  (define short (file-as-bytes "private/short.mp3"))
   (check-exn #px"song-bytes as the argument" (lambda () (song-bytes-title short)))
 
   (check-equal? (make-song-bytes "a" #"b") #"a|b")
   (check-exn exn:fail? (lambda () (make-song-bytes "a|" #"b")))
   (check-equal? (song-bytes-title (make-song-bytes "a" #"b")) "a")
   (check-equal? (song-bytes-mp3 (make-song-bytes "a" #"b")) #"b"))
+
+;; ---------------------------------------------------------------------------------------------------
+
+(define (self-test name)
+  (check-arg name (string? name) "string" "the" name)
+  
+  (define MP3-short "private/short.mp3")
+  (define MP3-long  "private/long.mp3")
+
+  ;; -> Void
+  ;; sapawn a music server 
+  (define (server-our-job)
+    (define msg0 (make-song-bytes "short" (file-as-bytes MP3-short)))
+    (define msg1 (make-song-bytes "long"  (file-as-bytes MP3-long)))
+    (void
+     (universe (cons 1 '())
+       [on-msg  (match-lambda*
+                  [(list (cons h worlds) from msg)
+                   (define mails (map (λ (w) (make-mail w (if (zero? h) msg0 msg1))) worlds))
+                   (define kills '())
+                   (make-bundle (cons (- 1 h) worlds) mails kills)])]
+       [on-new  (match-lambda*
+                  [(list (cons h worlds) w)
+                   (make-bundle (cons h (cons w worlds)) (list (make-mail w msg0)) '())])])))
+
+  ;; State = False U Response
+  
+  ;; Any -> State 
+  (define (client-their-job _)
+    (big-bang #false
+      [register   LOCALHOST]
+      [to-draw    show]
+      [on-receive (λ (w msg) (make-package (play-sound (song-bytes-mp3 msg)) 'next))]))
+
+  ;; State -> Image 
+  (define (show w)
+    (define msg (string-append name "I am ... waiting... waiting..."))
+    (if (boolean? w) (text msg 22 "red") (text w 22 "black")))
+
+  ;; run Lola run 
+  (launch-many-worlds  (server-our-job)  (client-their-job 0)))
