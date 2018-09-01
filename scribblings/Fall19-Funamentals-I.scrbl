@@ -1,12 +1,12 @@
 #lang scribble/manual
 @require[@for-label[
-@;Fall19-Funamentals-I 
+@;neu-fall18 
 racket 2htdp/universe]]
 
-@title{Fall19-Funamentals-I}
+@title{neu-fall18}
 @author{Matthias Felleisen}
 
-@defmodule[Fall19-Funamentals-I]
+@defmodule[neu-fall18]
 
 The teachpack provides auxiliary functions for Northeastern's Fall 2018
 Fundamentals I course (regular edition). 
