@@ -1,5 +1,5 @@
 #lang info
-(define collection "Fall19-Funamentals-I")
+(define collection "fall19-neu")
 (define deps '("racket" "video-v0-2"))
 (define build-deps '("scribble-lib" "racket-doc" "rackunit-lib"))
 (define scribblings '(("scribblings/Fall19-Funamentals-I.scrbl" ())))
