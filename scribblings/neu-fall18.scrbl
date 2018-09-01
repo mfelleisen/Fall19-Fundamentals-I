@@ -1,7 +1,5 @@
 #lang scribble/manual
-@require[@for-label[
-@;neu-fall18 
-racket 2htdp/universe]]
+@require[@for-label[lang/htdp-beginner 2htdp/universe]]
 
 @title{neu-fall18}
 @author{Matthias Felleisen}
@@ -19,10 +17,10 @@ A @deftech{Response} is one of:
 @item{@defthing[DONE string?]{the listener did not provide feeback}}
 ]
 
-@defproc[(file-as-bytes [s string??]) bytes?]{
+@defproc[(file-as-bytes [s string?]) bytes?]{
  retrives a file as a byte string.}
 
-@defproc[(play-sound [s bytes??]) #, @tech{Response}]{
+@defproc[(play-sound [s bytes?]) #, @tech{Response}]{
  plays the given MP3 bytes on your computer's speakers. 
 
 @bold{Effect} It pops up a @racket[big-bang] window that allows listeners
