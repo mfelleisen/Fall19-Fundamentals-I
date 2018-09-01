@@ -3,7 +3,8 @@
 #reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname students-can-write-this) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 (require 2htdp/image)
 (require 2htdp/universe)
-(require "../main.rkt")
+; (require "../main.rkt")
+(require Fall19-Fundamentals-I)
 
 ;; ===================================================================================================
 ;; a dumb student program 

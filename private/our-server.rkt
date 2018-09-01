@@ -1,5 +1,7 @@
 #lang racket/gui
 
+(require Fall19-Fundamentals-I)
+
 ;; PURPOSE a dumb server 
 
 ;; ===================================================================================================
