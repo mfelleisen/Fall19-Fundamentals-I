@@ -51,8 +51,8 @@
 
 ;; ---------------------------------------------------------------------------------------------------
 (define (file-as-bytes a-path)
-  (check-arg 'file-as-bytes (string? a-path) "string" "the" a-path)
-  [define a-path! (string->path a-path)]
+  (check-arg 'file-as-bytes (or (string? a-path) (path? a-path)) "string" "the" a-path)
+  [define a-path! (if (path? a-path) a-path (string->path a-path))]
   (if (file-exists? a-path!)
       (file->bytes a-path)
       (error 'file-as-bytes "not a file: ~e" a-path)))
@@ -251,12 +251,12 @@
 
 ;; ---------------------------------------------------------------------------------------------------
 
+(define-runtime-path MP3-short "private/short.mp3")
+(define-runtime-path MP3-long  "private/long.mp3")
+
 (define (self-test name)
   (check-arg name (string? name) "string" "the" name)
-  
-  (define MP3-short "private/short.mp3")
-  (define MP3-long  "private/long.mp3")
-
+ 
   ;; -> Void
   ;; sapawn a music server 
   (define (server-our-job)
