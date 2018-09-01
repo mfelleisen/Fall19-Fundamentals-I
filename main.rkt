@@ -1,8 +1,7 @@
 #lang racket/gui
 
 ;; ---------------------------------------------------------------------------------------------------
-;; the retriev-result function is kind of within reach of students after the first week
-;; at the pace of the regular schedue; they should do it so they don't think this is black magic 
+;; The teachpack provides auxiliaries for Northeastern's Fall '18 Fundamentals I (regular edition). 
 
 (provide
 
